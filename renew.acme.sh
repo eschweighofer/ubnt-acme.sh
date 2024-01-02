@@ -143,4 +143,3 @@ if [ -x "/bin/systemctl" ]; then
 else
     /usr/sbin/lighttpd -f /etc/lighttpd/lighttpd.conf
 fi
-fi
