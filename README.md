@@ -10,7 +10,7 @@ to generate a valid SSL certificate for the EdgeRouter.
 
 * Connect via ssh to your EdgeRouter and execute the following command.
 ```
-curl https://raw.githubusercontent.com/j-c-m/ubnt-letsencrypt/master/install.sh | sudo bash
+curl https://raw.githubusercontent.com/eschweighofer/ubnt-acme.sh/master/install.sh | sudo bash
 ```
 
 ## Configuration
@@ -18,19 +18,20 @@ curl https://raw.githubusercontent.com/j-c-m/ubnt-letsencrypt/master/install.sh 
 * In the steps below replace/verify the following:
   * subdomain.example.com - FQDN
   * 192.168.1.1 - LAN IP of Router
+  * dns_azure - DNS provider for FQDN for verification, can be skipped
 * Configure DNS record for subdomain.example.com to your public WAN IP.
 * Connect via ssh to your EdgeRouter.
 
 1. Initialize your certificate.
 
     ```
-    sudo /config/scripts/renew.acme.sh -d subdomain.example.com
+    sudo /config/scripts/renew.acme.sh --dns dns_azure -d subdomain.example.com
     ```
 
     You can include additional common names for your certificate, so long as they resolve to the same WAN address:
 
     ```
-    sudo /config/scripts/renew.acme.sh -d subdomain.example.com -d subdomain2.example.com
+    sudo /config/scripts/renew.acme.sh --dns dns_azure -d subdomain.example.com -d subdomain2.example.com
     ```
 
 2. Enter configuration mode.
@@ -57,13 +58,13 @@ curl https://raw.githubusercontent.com/j-c-m/ubnt-letsencrypt/master/install.sh 
     ```
     set system task-scheduler task renew.acme executable path /config/scripts/renew.acme.sh
     set system task-scheduler task renew.acme interval 1d
-    set system task-scheduler task renew.acme executable arguments '-d subdomain.example.com'
+    set system task-scheduler task renew.acme executable arguments '--dns -dns_azure -d subdomain.example.com'
     ```
 
     If you included multiple names in step 1, you'll need to include any additional names here as well.
 
     ```
-    set system task-scheduler task renew.acme executable arguments '-d subdomain.example.com -d subdomain2.example.com'
+    set system task-scheduler task renew.acme executable arguments '--dns -dns_azure -d subdomain.example.com -d subdomain2.example.com'
     ```
 
 6. Commit, save and exit configuration mode.
@@ -79,6 +80,7 @@ curl https://raw.githubusercontent.com/j-c-m/ubnt-letsencrypt/master/install.sh 
 
 ## Changelog
 
+    20240103 - Add dns verification option
     20231119 - Update install script to create ssl directory
     20231112 - Install script now fetches updated cacert bundle for curl
     20230208 - Update option handling to pass --staging and --test to acme.sh
