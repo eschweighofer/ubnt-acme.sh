@@ -18,7 +18,7 @@ curl https://raw.githubusercontent.com/eschweighofer/ubnt-acme.sh/master/install
 * In the steps below replace/verify the following:
   * subdomain.example.com - FQDN
   * 192.168.1.1 - LAN IP of Router
-  * dns_azure - DNS provider for FQDN for verification, can be skipped
+  * dns_azure - DNS provider for FQDN verification, can be skipped
 * Configure DNS record for subdomain.example.com to your public WAN IP.
 * Connect via ssh to your EdgeRouter.
 
@@ -58,13 +58,13 @@ curl https://raw.githubusercontent.com/eschweighofer/ubnt-acme.sh/master/install
     ```
     set system task-scheduler task renew.acme executable path /config/scripts/renew.acme.sh
     set system task-scheduler task renew.acme interval 1d
-    set system task-scheduler task renew.acme executable arguments '--dns -dns_azure -d subdomain.example.com'
+    set system task-scheduler task renew.acme executable arguments '--dns dns_azure -d subdomain.example.com'
     ```
 
     If you included multiple names in step 1, you'll need to include any additional names here as well.
 
     ```
-    set system task-scheduler task renew.acme executable arguments '--dns -dns_azure -d subdomain.example.com -d subdomain2.example.com'
+    set system task-scheduler task renew.acme executable arguments '--dns dns_azure -d subdomain.example.com -d subdomain2.example.com'
     ```
 
 6. Commit, save and exit configuration mode.
