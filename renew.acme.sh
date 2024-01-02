@@ -6,7 +6,7 @@ Options:
     -h, --help              Show this help message.
     -d, --domain            Specifies domain for cert, allowed multiple times.
     -f, --force             Force cert renewal.
-    --dns dns_hook          Use dns api. Defaults to dns_azure when argument is omitted
+    --dns [dns_hook]        Use dns api. Defaults to dns_azure when argument is omitted
     --debug [0|1|2|3]       Output debug info. Defaults to 1 if argument is omitted.
     --staging, --test       Use staging server, for testing.
 " 1>&2; exit 1;
